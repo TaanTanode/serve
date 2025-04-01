@@ -1,13 +1,14 @@
 const { PrismaClient } = require('@prisma/client')
 
-const prismaClientSingleton = () => {
-  return new PrismaClient()
+let prisma
+
+if (process.env.NODE_ENV === 'production') {
+  prisma = new PrismaClient()
+} else {
+  if (!global.prisma) {
+    global.prisma = new PrismaClient()
+  }
+  prisma = global.prisma
 }
-
-const globalForPrisma = globalThis || {}
-
-const prisma = globalForPrisma.prisma ?? prismaClientSingleton()
-
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 
 module.exports = prisma
