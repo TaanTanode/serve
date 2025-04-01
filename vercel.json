@@ -12,5 +12,5 @@
       "dest": "server.js"
     }
   ],
-  "buildCommand": "npm run build"
+  "buildCommand": "prisma generate && npm run build"
 } 
